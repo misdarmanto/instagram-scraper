@@ -5,6 +5,7 @@ let bodyParser = require("body-parser");
 let insta_video = require("./routes/insta_video");
 let insta_image = require("./routes/insta_image");
 let insta_hashtag = require("./routes/insta_hashtag");
+const port = process.env.PORT || 8080
 
 
 app.use(bodyParser.json()); // support json encoded bodies
@@ -31,7 +32,6 @@ app.post("/instagram/video", insta_video);
 app.post("/instagram/image", insta_image);
 app.get("/instagram/hashtag/:keyword", insta_hashtag);
 
-const port = 8080;
 app.listen(port, () => {
   console.log("Server running at " + port);
 });
