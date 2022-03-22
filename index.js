@@ -49,7 +49,7 @@ const insta_image = (req, res) => {
           let file = $('meta[property="og:type"]').attr("content");
           let url = $('meta[property="og:url"]').attr("content");
           let title = $('meta[property="og:title"]').attr("content");
-          res.send(JSON.stringify({ title, url, file, image_link, name: "juck"}))
+          res.send(JSON.stringify({title: title, url: url, file: file, image_link, name: "juck"}))
           // res.status(200).json({ title, url, file, image_link });
         } else {
           res.status(400).json({ message: "Error, Unable to load webpage" });
