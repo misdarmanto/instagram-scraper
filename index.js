@@ -28,7 +28,7 @@ app.use((req, res, next) => {
 });
 
 app.get("/", (req, res) => {
-  res.send("ok, Running!");
+  res.send("<h1>ok, Running</h1>");
 });
 
 const insta_image = (req, res) => {
