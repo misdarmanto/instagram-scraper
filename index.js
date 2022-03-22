@@ -28,72 +28,8 @@ app.use((req, res, next) => {
 });
 
 app.get("/", (req, res) => {
-  res.send("ok, Running!");
+  res.send("ok, Run!");
 });
-
-const insta_image = (req, res) => {
-  let image_url = req.body.url;
-  //   console.log(JSON.stringify(req.query));
-  if (image_url !== undefined) {
-    if (
-      image_url.substring(0, 8) === "https://" ||
-      image_url.substring(0, 7) === "http://"
-    ) {
-      request(image_url, (error, response, html) => {
-        if (!error) {
-          //   console.log("Insta_grab : " + image_url + " : Loaded");
-          let $ = cheerio.load(html);
-
-          //basic data from the meta tags
-          let image_link = $('meta[property="og:image"]').attr("content");
-          let file = $('meta[property="og:type"]').attr("content");
-          let url = $('meta[property="og:url"]').attr("content");
-          let title = $('meta[property="og:title"]').attr("content");
-          res.status(200).json({ title, url, file, image_link });
-        } else {
-          res.status(400).json({ message: "Error, Unable to load webpage" });
-        }
-      });
-    } else {
-      res.status(201).json({ message: "Invalid URL" });
-    }
-  } else {
-    res.status(400).json({ message: "Provided invalid URL" });
-  }
-};
-
-const insta_video = (req, res) => {
-  let video_url = req.body.url;
-  // console.log(JSON.stringify(req.body.url));
-  if (video_url !== undefined) {
-    if (
-      video_url.substring(0, 8) === "https://" ||
-      video_url.substring(0, 7) === "http://" ||
-      video_url.substring(0, 21) === "https://www.instagram" ||
-      video_url.substring(0, 20) === "http://www.instagram.com"
-    ) {
-      request(video_url, (error, response, html) => {
-        if (!error) {
-          // console.log("Insta_grab : " + video_url + " : Loaded");
-          let $ = cheerio.load(html);
-
-          //basic data from the meta tags
-          let video_link = $('meta[property="og:video"]').attr("content");
-          let file = $('meta[property="og:type"]').attr("content");
-          let url = $('meta[property="og:url"]').attr("content");
-          let title = $('meta[property="og:title"]').attr("content");
-          res.status(200).json({ title, url, file, video_link });
-        } else {
-          res.status(400).json({ message: "Error, Unable to load webpage" });
-        }
-      });
-    } else {
-      res.status(201).json({ message: "Invalid URL" });
-    }
-  } else {
-    res.status(400).json({ message: "Provided invalid URL" });
-  }
-};
 
 const insta_hashtag = (req, res) => {
   let URL = `https://www.instagram.com/explore/tags/${req.params.keyword}/`;
@@ -133,8 +69,72 @@ const insta_hashtag = (req, res) => {
   };
 };
 
-app.post("/instagram/video", insta_video);
-app.post("/instagram/image", insta_image);
+app.post("/instagram/video", (req, res) => {
+  let video_url = req.body.url;
+  // console.log(JSON.stringify(req.body.url));
+  if (video_url !== undefined) {
+    if (
+      video_url.substring(0, 8) === "https://" ||
+      video_url.substring(0, 7) === "http://" ||
+      video_url.substring(0, 21) === "https://www.instagram" ||
+      video_url.substring(0, 20) === "http://www.instagram.com"
+    ) {
+      request(video_url, (error, response, html) => {
+        if (!error) {
+          // console.log("Insta_grab : " + video_url + " : Loaded");
+          let $ = cheerio.load(html);
+
+          //basic data from the meta tags
+          let video_link = $('meta[property="og:video"]').attr("content");
+          let file = $('meta[property="og:type"]').attr("content");
+          let url = $('meta[property="og:url"]').attr("content");
+          let title = $('meta[property="og:title"]').attr("content");
+          res.status(200).json({ title, url, file, video_link });
+        } else {
+          res.status(400).json({ message: "Error, Unable to load webpage" });
+        }
+      });
+    } else {
+      res.status(201).json({ message: "Invalid URL" });
+    }
+  } else {
+    res.status(400).json({ message: "Provided invalid URL" });
+  }
+});
+
+
+
+app.post("/instagram/image", (req, res) => {
+  const image_url = req.body.url;
+  //   console.log(JSON.stringify(req.query));
+  if (image_url !== undefined) {
+    if (
+      image_url.substring(0, 8) === "https://" ||
+      image_url.substring(0, 7) === "http://"
+    ) {
+      request(image_url, (error, response, html) => {
+        if (!error) {
+          //   console.log("Insta_grab : " + image_url + " : Loaded");
+          const $ = cheerio.load(html);
+
+          //basic data from the meta tags
+          const image_link = $('meta[property="og:image"]').attr("content");
+          const file = $('meta[property="og:type"]').attr("content");
+          const url = $('meta[property="og:url"]').attr("content");
+          const title = $('meta[property="og:title"]').attr("content");
+          res.status(200).json({ title, url, file, image_link });
+        } else {
+          res.status(400).json({ message: "Error, Unable to load webpage" });
+        }
+      });
+    } else {
+      res.status(201).json({ message: "Invalid URL" });
+    }
+  } else {
+    res.status(400).json({ message: "Provided invalid URL" });
+  }
+});
+
 app.get("/instagram/hashtag/:keyword", insta_hashtag);
 
 app.listen(port, () => {
