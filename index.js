@@ -9,7 +9,7 @@ let request = require("request");
 // let insta_video = require("./routes/insta_video");
 // let insta_image = require("./routes/insta_image");
 // let insta_hashtag = require("./routes/insta_hashtag");
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 3000;
 
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(
@@ -28,7 +28,7 @@ app.use((req, res, next) => {
 });
 
 app.get("/", (req, res) => {
-  res.send("<h1>ok, Running</h1>");
+  res.send("ok, Running!");
 });
 
 const insta_image = (req, res) => {
@@ -49,8 +49,7 @@ const insta_image = (req, res) => {
           let file = $('meta[property="og:type"]').attr("content");
           let url = $('meta[property="og:url"]').attr("content");
           let title = $('meta[property="og:title"]').attr("content");
-          res.send(JSON.stringify({title: title, url: url, file: file, image_link, name: "juk"}))
-          // res.status(200).json({ title, url, file, image_link });
+          res.status(200).json({ title, url, file, image_link });
         } else {
           res.status(400).json({ message: "Error, Unable to load webpage" });
         }
