@@ -28,7 +28,7 @@ app.use((req, res, next) => {
 });
 
 app.get("/", (req, res) => {
-  res.send("ok, Run!");
+  res.send("ok, Run ......!");
 });
 
 const insta_hashtag = (req, res) => {
