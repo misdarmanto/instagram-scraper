@@ -29,7 +29,7 @@ app.use((req, res, next) => {
 });
 
 app.get("/", (req, res) => {
-  res.send("ok, Run ......!");
+  res.send("<h1>hello bicth</h1>");
 });
 
 const insta_hashtag = (req, res) => {
