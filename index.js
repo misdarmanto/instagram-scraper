@@ -70,7 +70,7 @@ const insta_hashtag = (req, res) => {
   };
 };
 
-app.post("/instagram/video", (req, res) => {
+app.post("/instagram/download", (req, res) => {
   async function start() {
     var data = await instagram.insta_post(req.body.url);
     res.status(200).json(data);
